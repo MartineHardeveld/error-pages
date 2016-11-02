@@ -47,6 +47,11 @@ body {
   max-height: 100%;
 }
 
+#captcha {
+  margin: 0 auto;
+  width: 304px;
+}
+
 h1, p {
   text-align: center;
 }
