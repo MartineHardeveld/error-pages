@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+
+    <link rel="icon" href="https://assets.membergetmember.co/general/icons/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="114x114" href="https://assets.membergetmember.co/general/icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://assets.membergetmember.co/general/icons/android-icon-192x192.png">
+    <meta name="msapplication-TileImage" content="https://assets.membergetmember.co/general/icons/ms-icon-310x310.png">
+
+    <title>We are so sorry...</title>
+
+    <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      background-color: black;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center center;
+      color: white;
+      font-family: 'Helvetica Neue', Helvetica, sans-serif;
+      line-height: 1.325;
+      font-weight: 300;
+      position: relative;
+      overflow-y: hidden;
+    }
+
+    #container {
+      position: relative;
+      max-width: 50%;
+      margin: 10px auto 0 auto;
+      padding: 15px;
+      border: 3px dotted white;
+      border-radius: 10px;
+    }
+
+    #background {
+      background-color: black;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      opacity: 0.5;
+      top: 0;
+      left: 0;
+    }
+
+    #logo {
+      max-width: 25%;
+      margin: 20% auto 0 auto;
+      position: relative;
+    }
+
+    #logo img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    h1, p {
+      text-align: center;
+    }
+    </style>
+  </head>
+  <body>
+
+    <div id="background"></div>
+
+    <div id="logo">
+      <img src="assets/logo.png" alt="Member get Member Co">
+    </div>
+
+    <div id="container">
+      <h1>Ummm...</h1>
+
+      <p>Well this is embarrassing - something seems to have gone wrong.</p>
+    </div>
+
+    <script>
+    /*
+      This key is a public access key, no need to hide it
+      https://github.com/Giphy/GiphyAPI
+    */
+    var GIPHY_KEY = 'dc6zaTOxFJmzC';
+
+    function insetBackground(payload) {
+      if (!payload.data || !Array.isArray(payload.data)) return;
+
+      var randomNumber = Math.floor(Math.random() * payload.data.length);
+      var chosenImage = payload.data[randomNumber];
+      var gif = chosenImage.images.original.url;
+      var body = document.getElementsByTagName('body')[0];
+
+      body.style.backgroundImage = 'url(' + gif + ')';
+    }
+
+    function init(apiKey) {
+      var xhr = new XMLHttpRequest();
+      var uri = 'http://api.giphy.com/v1/gifs/search';
+
+      uri += '?api_key=' + apiKey;
+      uri += '&q=' + 'fail';
+      uri += '&rating=' + 'pg13';
+      uri += '&offset=' + Math.floor(Math.random() * 100);
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState !== XMLHttpRequest.DONE || xhr.status !== 200) return;
+        insetBackground(JSON.parse(xhr.response));
+      }
+
+      xhr.open('GET', uri, true);
+      xhr.send();
+    }
+
+    init(GIPHY_KEY);
+    </script>
+
+  </body>
+</html>
